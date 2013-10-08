@@ -108,6 +108,7 @@ ROOT_URLCONF = 'KitchenCalendar.urls'
 WSGI_APPLICATION = 'KitchenCalendar.wsgi.application'
 
 TEMPLATE_DIRS = (
+    "/Users/Nastya/code/KitchenCalendar/KitchenCalendarApp/templates",
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -120,6 +121,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_auth',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -156,3 +158,45 @@ LOGGING = {
         },
     }
 }
+
+# Login settings
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/accounts/'
+LOGIN_ERROR_URL = '/login-error/'
+
+AUTHENTICATION_BACKENDS = (
+  'social_auth.backends.facebook.FacebookBackend',
+  'django.contrib.auth.backends.ModelBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+   "social_auth.context_processors.social_auth_by_type_backends",
+)
+
+SOCIAL_AUTH_ENABLED_BACKENDS = ('facebook')
+
+FACEBOOK_APP_ID = '252022608279425'
+FACEBOOK_API_SECRET = '04eff42068cdda288ac09cd2153f9923'
+
+FACEBOOK_EXTENDED_PERMISSIONS= ['email']
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_auth.backends.pipeline.social.social_auth_user',
+    'social_auth.backends.pipeline.associate.associate_by_email',
+    'social_auth.backends.pipeline.user.get_username',
+    'social_auth.backends.pipeline.user.create_user',
+    'social_auth.backends.pipeline.social.associate_user',
+    'social_auth.backends.pipeline.user.update_user_details',
+)
+
+#Social authorisation settings
+SOCIAL_AUTH_CREATE_USERS = True
+SOCIAL_AUTH_DEFAULT_USERNAME = lambda u: slugify(u) #Encoding non-English strings
+SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
+SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
+SOCIAL_AUTH_ASSOCIATE_BY_EMAIL = True
+SOCIAL_AUTH_ERROR_KEY = 'socialauth_error'
+SOCIAL_AUTH_EXTRA_DATA = False
+SOCIAL_AUTH_CHANGE_SIGNAL_ONLY = True
+
+

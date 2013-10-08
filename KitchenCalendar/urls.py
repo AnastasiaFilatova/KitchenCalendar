@@ -5,7 +5,8 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
+                       url(r'', include('social_auth.urls')),
+                       url(r'', include('KitchenCalendarApp.urls')),
     # url(r'^$', 'KitchenCalendar.views.home', name='home'),
     # url(r'^KitchenCalendar/', include('KitchenCalendar.foo.urls')),
 
